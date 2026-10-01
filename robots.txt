@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: /sitemap.xml
+Sitemap: https://alice-san1110.github.io/warikan-calculator/sitemap.xml
