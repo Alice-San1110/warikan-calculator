@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>割り勘計算機｜1人あたりの金額を簡単計算</title>
+  <meta name="description" content="合計金額と人数を入力するだけで、1人あたりの割り勘金額を簡単に計算できます。四捨五入・切り捨て・切り上げに対応した無料の割り勘計算機です。">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#4f7cff">
+  <link rel="canonical" href="/">
+
+  <!-- SNS向け -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="割り勘計算機｜1人あたりの金額を簡単計算">
+  <meta property="og:description" content="合計金額と人数を入力するだけ。飲み会や食事会の割り勘金額をすぐに計算できます。">
+  <meta property="og:url" content="/">
+  <meta property="og:site_name" content="割り勘計算機">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="割り勘計算機｜1人あたりの金額を簡単計算">
+  <meta name="twitter:description" content="合計金額と人数を入力するだけの無料割り勘計算機。">
+
+  <!-- 検索エンジン向け構造化データ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "割り勘計算機",
+    "url": "/",
+    "description": "合計金額と人数から1人あたりの割り勘金額を計算できる無料Webアプリ。",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    }
+  }
+  </script>
+
+  <!--
+    Google AdSenseを利用する場合は、審査・承認後にGoogleから指定された
+    AdSenseコードをここへ追加してください。
+  -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "割り勘計算機は無料で使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。基本的な割り勘計算を無料で利用できます。スマートフォンやパソコンのブラウザから利用できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "3人や5人など、どんな人数でも計算できますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。1人以上の人数を入力すれば計算できます。3人、5人、10人など、人数に合わせて1人あたりの金額を計算できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "割り切れない金額の端数はどうなりますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "四捨五入、切り捨て、切り上げの3種類から端数処理を選べます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "端数を切り上げることはできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。「端数処理」で「切り上げ」を選択できます。切り捨てや四捨五入も選択できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "代表者だけ多めに支払う割り勘にも対応していますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "現在は参加者全員が同じ金額を支払う基本的な割り勘に対応しています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "クレジットカードで1人がまとめて支払った場合にも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。合計金額と参加人数から、立て替えた人が集める目安となる1人あたりの金額を計算できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "飲み会や食事会の割り勘に使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。飲み会、食事会、旅行、友達との買い物など、複数人で同じ金額を負担するときに利用できます。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "スマートフォンでも使えますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "はい。スマートフォン、タブレット、パソコンのブラウザに対応しています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "入力した金額や人数は保存されますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "割り勘の計算に入力した合計金額や人数をサーバーへ送信して保存する仕組みにはしていません。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "計算結果を友達に送ることはできますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "「結果をコピー」ボタンから計算結果をコピーし、LINEやDiscordなどに貼り付けて共有できます。"
+        }
+      }
+    ]
+  }
+  </script>
+
+
+  <style>
+    :root {
+      --accent: #4f7cff;
+      --accent-soft: #eef3ff;
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --text: #20242b;
+      --muted: #747b87;
+      --border: #e3e6eb;
+      --max-width: 620px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans JP",
+        sans-serif;
+      line-height: 1.7;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(calc(100% - 28px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 0 20px;
+    }
+
+    h1 {
+      font-size: clamp(24px, 7vw, 32px);
+      line-height: 1.3;
+      margin: 0 0 6px;
+      letter-spacing: .02em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    /* 広告枠 */
+    .ad-slot {
+      width: 100%;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f1f3;
+      border: 1px solid #e2e4e8;
+      border-radius: 12px;
+      color: #9a9fa8;
+      font-size: 11px;
+      margin: 0 0 16px;
+      overflow: hidden;
+    }
+
+    .ad-slot-label {
+      font-size: 10px;
+      letter-spacing: .08em;
+    }
+
+    /* AdSense等の広告コードを入れた後も広告枠の高さを確保 */
+    .ad-slot ins {
+      display: block;
+      width: 100%;
+      min-height: 90px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 22px;
+      box-shadow: 0 8px 28px rgba(25, 35, 55, .05);
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    input,
+    select {
+      width: 100%;
+      height: 52px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+      font-size: 18px;
+      padding: 0 14px;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+    }
+
+    .unit {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    input.has-unit {
+      padding-right: 48px;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    button {
+      width: 100%;
+      height: 52px;
+      border: 0;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .08s, opacity .15s;
+    }
+
+    button:active {
+      transform: scale(.985);
+    }
+
+    .primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .secondary {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .ghost {
+      background: transparent;
+      color: var(--muted);
+      height: 44px;
+      font-size: 13px;
+    }
+
+    .result {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 16px;
+      background: var(--accent-soft);
+      text-align: center;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result-label {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .amount {
+      font-size: clamp(34px, 10vw, 52px);
+      line-height: 1.1;
+      font-weight: 800;
+      margin: 6px 0;
+      color: var(--accent);
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 7px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .settings {
+      margin-top: 16px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+
+    .settings summary {
+      cursor: pointer;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      list-style: none;
+    }
+
+    .settings summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .colors {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .color-btn {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      outline: 1px solid var(--border);
+    }
+
+    .color-btn.active {
+      outline: 2px solid var(--text);
+    }
+
+    .content {
+      margin-top: 22px;
+    }
+
+    .content-section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+
+    h2 {
+      font-size: 19px;
+      line-height: 1.4;
+      margin: 0 0 12px;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 18px 0 6px;
+    }
+
+    p {
+      margin: 8px 0;
+      font-size: 14px;
+    }
+
+    .example {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 13px 15px;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
+    .faq-item {
+      border-top: 1px solid var(--border);
+      padding: 13px 0;
+    }
+
+    .faq-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .faq-q {
+      font-weight: 700;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      padding: 12px 0 30px;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: none;
+      margin: 0 7px;
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        width: min(calc(100% - 20px), var(--max-width));
+      }
+
+      .card,
+      .content-section {
+        padding: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <h1>割り勘計算機</h1>
+      <p class="subtitle">合計金額と人数を入力するだけで、1人あたりの金額を簡単計算</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 広告枠①：AdSense等の広告コードをここに配置 -->
+    <div class="ad-slot" aria-label="広告">
+      <div class="ad-slot-label">広告</div>
+      <!--
+      AdSenseコード例（審査承認後にGoogleから発行されたコードへ置き換える）：
+
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+           data-ad-slot="XXXXXXXXXX"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+      -->
+    </div>
+
+    <section class="card" aria-labelledby="calculator-title">
+      <h2 id="calculator-title" style="position:absolute;left:-9999px;">割り勘計算</h2>
+
+      <div class="field">
+        <label for="total">合計金額</label>
+        <div class="input-wrap">
+          <input
+            id="total"
+            class="has-unit"
+            type="number"
+            inputmode="numeric"
+            min="0"
+            step="1"
+            placeholder="例：12000"
+            autocomplete="off"
+          >
+          <span class="unit">円</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="people">人数</label>
+          <div class="input-wrap">
+            <input
+              id="people"
+              class="has-unit"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              step="1"
+              placeholder="例：4"
+              autocomplete="off"
+            >
+            <span class="unit">人</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="rounding">端数処理</label>
+          <select id="rounding">
+            <option value="round">四捨五入</option>
+            <option value="floor">切り捨て</option>
+            <option value="ceil">切り上げ</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="primary" id="calculate" type="button">計算する</button>
+
+      <div class="result" id="result" aria-live="polite">
+        <div class="result-label">1人あたり</div>
+        <div class="amount" id="amount">0円</div>
+        <div class="note" id="note"></div>
+
+        <div class="actions">
+          <button class="secondary" id="copy" type="button">結果をコピー</button>
+          <button class="ghost" id="reset" type="button">リセット</button>
+        </div>
+      </div>
+
+      <details class="settings">
+        <summary>⚙ テーマカラー</summary>
+        <div class="colors" aria-label="テーマカラー">
+          <button class="color-btn active" data-color="#4f7cff" style="background:#4f7cff" aria-label="ブルー" type="button"></button>
+          <button class="color-btn" data-color="#12a879" style="background:#12a879" aria-label="グリーン" type="button"></button>
+          <button class="color-btn" data-color="#8a63d2" style="background:#8a63d2" aria-label="パープル" type="button"></button>
+          <button class="color-btn" data-color="#e05a68" style="background:#e05a68" aria-label="レッド" type="button"></button>
+          <button class="color-btn" data-color="#e39a24" style="background:#e39a24" aria-label="オレンジ" type="button"></button>
+          <button class="color-btn" data-color="#e05ca8" style="background:#e05ca8" aria-label="ピンク" type="button"></button>
+        </div>
+      </details>
+    </section>
+
+    <!-- 広告枠②：計算機の下 -->
+    <div class="ad-slot" aria-label="広告">
+      <div class="ad-slot-label">広告</div>
+      <!--
+      ここにも承認後のAdSense広告コードを配置できます。
+      上の広告枠と同じコードをそのまま使うのではなく、
+      Googleから指定された広告ユニット設定に合わせてください。
+      -->
+    </div>
+
+    <section class="content" aria-label="割り勘計算機の説明">
+      <article class="content-section">
+        <h2>割り勘計算機とは？</h2>
+        <p>
+          割り勘計算機は、飲み会や食事会などの合計金額を参加人数で割って、
+          1人あたりの支払金額を簡単に計算できる無料ツールです。
+        </p>
+        <p>
+          合計金額と人数を入力して「計算する」を押すだけで利用できます。
+          割り切れない金額にも対応しており、端数の処理方法を選択できます。
+        </p>
+      </article>
+
+      <article class="content-section">
+        <h2>割り勘の計算方法</h2>
+        <p>基本的な割り勘は、合計金額を参加人数で割って計算します。</p>
+
+        <div class="example">
+          <strong>例：4人で12,000円の場合</strong><br>
+          12,000円 ÷ 4人 ＝ 3,000円<br>
+          <strong>1人あたり3,000円</strong>
+        </div>
+
+        <p>
+          1円単位などで割り切れない場合は、
+          四捨五入・切り捨て・切り上げから端数処理を選択できます。
+        </p>
+      </article>
+
+      <article class="content-section">
+        <h2>割り勘計算機のよくある質問</h2>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 割り勘計算機は無料で使えますか？</div>
+          <p>はい。基本的な割り勘計算を無料で利用できます。スマートフォンやパソコンのブラウザから利用できます。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 3人や5人など、どんな人数でも計算できますか？</div>
+          <p>はい。1人以上の人数を入力すれば計算できます。3人、5人、10人など、人数に合わせて1人あたりの金額を計算できます。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 割り切れない金額の端数はどうなりますか？</div>
+          <p>四捨五入、切り捨て、切り上げの3種類から端数処理を選べます。例えば10,000円を3人で割る場合など、1円単位で割り切れないケースにも対応しています。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 端数を切り上げることはできますか？</div>
+          <p>はい。「端数処理」で「切り上げ」を選択すると、1人あたりの金額を切り上げて計算できます。反対に「切り捨て」や「四捨五入」も選択できます。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 代表者だけ多めに支払う割り勘にも対応していますか？</div>
+          <p>現在の計算機は、参加者全員が同じ金額を支払う基本的な割り勘に対応しています。代表者だけ多く支払う場合は、計算結果を参考にして調整してください。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. クレジットカードで1人がまとめて支払った場合にも使えますか？</div>
+          <p>はい。合計金額と参加人数を入力すれば、立て替えた人が集める目安となる1人あたりの金額を計算できます。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 飲み会や食事会の割り勘に使えますか？</div>
+          <p>はい。飲み会、食事会、旅行、友達との買い物など、複数人で同じ金額を負担するときの計算に利用できます。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. スマートフォンでも使えますか？</div>
+          <p>はい。スマートフォン、タブレット、パソコンのブラウザに対応しています。アプリをインストールする必要はありません。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 入力した金額や人数は保存されますか？</div>
+          <p>割り勘の計算に入力した合計金額や人数をサーバーへ送信して保存する仕組みにはしていません。テーマカラーの設定については、ブラウザの保存機能を利用します。</p>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">Q. 計算結果を友達に送ることはできますか？</div>
+          <p>計算結果は「結果をコピー」ボタンからコピーできます。コピーした結果をLINEやDiscordなどに貼り付けて共有できます。</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div>シンプルに、すぐ割り勘。</div>
+      <div style="margin-top:8px;">
+        <a href="/privacy.html">プライバシーポリシー</a>
+        <a href="/terms.html">利用規約</a>
+        <a href="/contact.html">お問い合わせ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const total = document.getElementById("total");
+    const people = document.getElementById("people");
+    const rounding = document.getElementById("rounding");
+    const result = document.getElementById("result");
+    const amount = document.getElementById("amount");
+    const note = document.getElementById("note");
+
+    function formatYen(n) {
+      return Math.round(n).toLocaleString("ja-JP") + "円";
+    }
+
+    function calculate() {
+      const totalValue = Number(total.value);
+      const peopleValue = Number(people.value);
+
+      if (
+        !Number.isFinite(totalValue) ||
+        totalValue < 0 ||
+        !Number.isInteger(peopleValue) ||
+        peopleValue < 1
+      ) {
+        result.classList.remove("show");
+        alert("合計金額と1人以上の人数を入力してください。");
+        return;
+      }
+
+      const raw = totalValue / peopleValue;
+      let perPerson;
+
+      if (rounding.value === "floor") {
+        perPerson = Math.floor(raw);
+      } else if (rounding.value === "ceil") {
+        perPerson = Math.ceil(raw);
+      } else {
+        perPerson = Math.round(raw);
+      }
+
+      const difference = perPerson * peopleValue - totalValue;
+
+      amount.textContent = formatYen(perPerson);
+
+      if (difference === 0) {
+        note.textContent = "ぴったり割り勘です。";
+      } else if (difference > 0) {
+        note.textContent =
+          `${Math.abs(difference).toLocaleString("ja-JP")}円多く集める計算です。`;
+      } else {
+        note.textContent =
+          `${Math.abs(difference).toLocaleString("ja-JP")}円不足する計算です。`;
+      }
+
+      result.classList.add("show");
+    }
+
+    document.getElementById("calculate").addEventListener("click", calculate);
+
+    [total, people].forEach((el) => {
+      el.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") calculate();
+      });
+    });
+
+    document.getElementById("copy").addEventListener("click", async () => {
+      const text = `割り勘：1人 ${amount.textContent}`;
+
+      try {
+        await navigator.clipboard.writeText(text);
+
+        const btn = document.getElementById("copy");
+        const oldText = btn.textContent;
+
+        btn.textContent = "コピーしました";
+
+        setTimeout(() => {
+          btn.textContent = oldText;
+        }, 1200);
+      } catch {
+        alert(text);
+      }
+    });
+
+    document.getElementById("reset").addEventListener("click", () => {
+      total.value = "";
+      people.value = "";
+      result.classList.remove("show");
+      total.focus();
+    });
+
+    const root = document.documentElement;
+    const colors = document.querySelectorAll(".color-btn");
+
+    function hexToSoft(hex) {
+      const r = parseInt(hex.slice(1, 3), 16);
+      const g = parseInt(hex.slice(3, 5), 16);
+      const b = parseInt(hex.slice(5, 7), 16);
+
+      return `rgba(${r}, ${g}, ${b}, .09)`;
+    }
+
+    colors.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const color = btn.dataset.color;
+
+        root.style.setProperty("--accent", color);
+        root.style.setProperty("--accent-soft", hexToSoft(color));
+
+        colors.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        localStorage.setItem("warikanColor", color);
+      });
+    });
+
+    const saved = localStorage.getItem("warikanColor");
+
+    if (saved && /^#[0-9a-fA-F]{6}$/.test(saved)) {
+      root.style.setProperty("--accent", saved);
+      root.style.setProperty("--accent-soft", hexToSoft(saved));
+
+      colors.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.color === saved);
+      });
+    }
+  </script>
+</body>
+</html>
